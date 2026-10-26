@@ -242,7 +242,7 @@ public abstract class ClassTypeInfoManagerDB implements ManagerDB, ProgramClassT
 	}
 
 	@Override
-	public void programReady(int openMode, int currentRevision, TaskMonitor monitor)
+	public void programReady(ghidra.framework.data.OpenMode openMode, int currentRevision, TaskMonitor monitor)
 			throws IOException, CancelledException {
 		// do nothing
 	}

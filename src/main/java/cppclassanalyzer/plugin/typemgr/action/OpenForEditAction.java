@@ -6,6 +6,7 @@ import java.io.IOException;
 import cppclassanalyzer.data.manager.FileArchiveClassTypeInfoManager;
 import cppclassanalyzer.plugin.ClassTypeInfoManagerPlugin;
 
+import ghidra.app.plugin.core.datamgr.archive.DuplicateIdException;
 import ghidra.util.Msg;
 
 import docking.ActionContext;
@@ -45,7 +46,7 @@ final class OpenForEditAction extends AbstractFileArchivePopupAction {
 		plugin.closeManager(manager);
 		try {
 			plugin.openArchive(file, true);
-		} catch (IOException e) {
+		} catch (IOException | DuplicateIdException e) {
 			Msg.showError(plugin, null, "Failed to open archive for editing", e);
 		}
 	}

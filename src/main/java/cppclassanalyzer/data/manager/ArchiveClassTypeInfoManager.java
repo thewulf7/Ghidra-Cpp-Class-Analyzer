@@ -40,7 +40,7 @@ import cppclassanalyzer.database.tables.ArchivedClassTypeInfoDatabaseTable;
 import cppclassanalyzer.database.tables.ArchivedGnuVtableDatabaseTable;
 import cppclassanalyzer.database.utils.TransactionHandler;
 import cppclassanalyzer.plugin.ClassTypeInfoManagerPlugin;
-import db.DBConstants;
+import ghidra.framework.data.OpenMode;
 import db.DBHandle;
 import db.Table;
 import generic.jar.ResourceFile;
@@ -62,8 +62,8 @@ public final class ArchiveClassTypeInfoManager extends StandAloneDataTypeManager
 	private final TypeInfoTreeNodeManager treeNodeManager;
 
 	private ArchiveClassTypeInfoManager(ClassTypeInfoManagerService plugin,
-			File file, int openMode) throws IOException {
-		super(new ResourceFile(file), openMode);
+			File file, OpenMode openMode) throws IOException, CancelledException {
+		super(new ResourceFile(file), openMode, TaskMonitor.DUMMY);
 		this.plugin = plugin;
 		this.file = file;
 		ArchivedClassTypeInfoDatabaseTable classTable = getClassTable();
@@ -134,7 +134,11 @@ public final class ArchiveClassTypeInfoManager extends StandAloneDataTypeManager
 
 	public static ArchiveClassTypeInfoManager createManager(ClassTypeInfoManagerService plugin,
 			File file) throws IOException {
-		return new ArchiveClassTypeInfoManager(plugin, file, DBConstants.CREATE);
+		try {
+			return new ArchiveClassTypeInfoManager(plugin, file, OpenMode.CREATE);
+		} catch (CancelledException e) {
+			throw new AssertException(e);
+		}
 	}
 
 	@Override
@@ -149,8 +153,12 @@ public final class ArchiveClassTypeInfoManager extends StandAloneDataTypeManager
 
 	public static ArchiveClassTypeInfoManager open(ClassTypeInfoManagerService plugin, File file,
 			boolean openForUpdate) throws IOException {
-		int mode = openForUpdate ? DBConstants.UPDATE : DBConstants.READ_ONLY;
-		return new ArchiveClassTypeInfoManager(plugin, file, mode);
+		OpenMode openMode = openForUpdate ? OpenMode.UPDATE : OpenMode.IMMUTABLE;
+		try {
+			return new ArchiveClassTypeInfoManager(plugin, file, openMode);
+		} catch (CancelledException e) {
+			throw new AssertException(e);
+		}
 	}
 
 	@Override

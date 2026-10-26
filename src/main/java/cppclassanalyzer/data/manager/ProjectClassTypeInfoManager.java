@@ -19,6 +19,7 @@ import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.GhidraClass;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.symbol.Namespace;
+import ghidra.framework.data.OpenMode;
 import ghidra.program.util.ChangeManager;
 import ghidra.util.InvalidNameException;
 import ghidra.util.Lock;
@@ -73,7 +74,7 @@ public final class ProjectClassTypeInfoManager extends BaseProjectDataTypeManage
 
 	private ProjectClassTypeInfoManager(ClassTypeInfoManagerService service, ProjectArchive archive)
 			throws CancelledException, VersionException, IOException {
-		super(getDB(archive), getDBHandle(archive), DBConstants.UPDATE, getDB(archive),
+		super(getDB(archive), getDBHandle(archive), OpenMode.UPDATE, getDB(archive),
 			getLock(archive), TaskMonitor.DUMMY);
 		this.archive = archive;
 		this.plugin = service;
@@ -384,7 +385,7 @@ public final class ProjectClassTypeInfoManager extends BaseProjectDataTypeManage
 		lock.acquire();
 		try {
 			Table table = createLibMapTable(getDBHandle(archive));
-			getDB(archive).setChanged(ChangeManager.DOCR_OBJECT_CREATED, null, table);
+			getDB(archive).setChanged(ghidra.program.util.ProgramEvent.DATA_TYPE_ADDED, null, table);
 		} finally {
 			lock.release();
 		}

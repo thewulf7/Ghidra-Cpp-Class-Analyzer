@@ -3,6 +3,7 @@ package cppclassanalyzer.plugin.typemgr.action;
 import java.io.File;
 import java.io.IOException;
 
+import ghidra.app.plugin.core.datamgr.archive.DuplicateIdException;
 import ghidra.util.Msg;
 
 import docking.ActionContext;
@@ -39,7 +40,7 @@ final class CreateArchiveAction extends AbstractTypeMgrAction {
 		}
 		try {
 			getHandler().getPlugin().createArchive(file);
-		} catch (IOException e) {
+		} catch (IOException | DuplicateIdException e) {
 			Msg.error(this, e);
 		}
 	}

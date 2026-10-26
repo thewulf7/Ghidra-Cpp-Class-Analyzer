@@ -2,6 +2,7 @@ package ghidra.program.database;
 
 import java.io.IOException;
 
+import ghidra.framework.data.OpenMode;
 import ghidra.util.Lock;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.exception.VersionException;
@@ -12,7 +13,7 @@ import db.util.ErrorHandler;
 
 public abstract class BaseProjectDataTypeManager extends ProjectDataTypeManager {
 	
-	public BaseProjectDataTypeManager(DataTypeArchiveDB dataTypeArchive, DBHandle handle, int openMode,
+	public BaseProjectDataTypeManager(DataTypeArchiveDB dataTypeArchive, DBHandle handle, OpenMode openMode,
 			ErrorHandler errHandler, Lock lock,
 			TaskMonitor monitor) throws CancelledException, VersionException, IOException {
 		super(dataTypeArchive, handle, openMode, errHandler, lock, monitor);

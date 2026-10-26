@@ -205,7 +205,7 @@ public final class HeadlessClassTypeInfoManagerService implements ClassTypeInfoM
 		}
 
 		@Override
-		public void domainObjectClosed() {
+		public void domainObjectClosed(ghidra.framework.model.DomainObject domainObject) {
 			programClosed(program);
 		}
 	}

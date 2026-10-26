@@ -60,7 +60,7 @@ public abstract class AbstractTypeInfoProgramBuilder extends ProgramBuilder {
 				setBytes(addr(offset).toString(), typeMap.get(offset));
 			}
 			for (Long offset : nameMap.keySet()) {
-				createString(addr(offset).toString(), nameMap.get(offset));
+				createNameString(addr(offset).toString(), nameMap.get(offset));
 			}
 			for (Long offset : vtableMap.keySet()) {
 				setBytes(addr(offset).toString(), vtableMap.get(offset));
@@ -165,7 +165,7 @@ public abstract class AbstractTypeInfoProgramBuilder extends ProgramBuilder {
 		return new AbstractMap.SimpleImmutableEntry<>(offset, bytes);
 	}
 
-	private void createString(String address, String string) throws Exception {
+	private void createNameString(String address, String string) throws Exception {
 		createString(address, string, StandardCharsets.US_ASCII,
 				true, StringDataType.dataType);
 	}
